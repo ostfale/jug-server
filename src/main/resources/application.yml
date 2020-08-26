@@ -1,1 +1,15 @@
+spring:
+  main:
+    banner-mode: off
 
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/jug_db
+    username: uwe
+    password: uwe
+    initialization-mode: always
+    schema: classpath:schema.sql
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
