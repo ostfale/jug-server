@@ -33,6 +33,12 @@ class PersonController(val personService: PersonService) {
         return personService.save(person)
     }
 
+    @PutMapping("/{id}")
+    fun update(@RequestBody person: Person, @PathVariable id: Long): Person {
+        log.debug("Update person with id: $id")
+        return personService.update(person, id)
+    }
+
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long) {
         personService.deleteById(id)

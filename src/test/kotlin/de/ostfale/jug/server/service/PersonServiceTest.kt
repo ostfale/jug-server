@@ -2,10 +2,14 @@ package de.ostfale.jug.server.service
 
 import Person
 import com.ninjasquad.springmockk.MockkBean
+import de.ostfale.jug.server.CreatePersonList
+import de.ostfale.jug.server.CreatePersonModel
 import de.ostfale.jug.server.exceptions.PersonNotFoundException
 import de.ostfale.jug.server.repository.PersonRepository
+import io.mockk.Runs
 import io.mockk.every
-import io.mockk.slot
+import io.mockk.just
+import io.mockk.verify
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.extension.ExtendWith
@@ -28,10 +32,21 @@ class PersonServiceTest {
     }
 
     @Test
+    @DisplayName("Service calls delete method of repo")
+    fun `Verify that repository delete method is called by service`() {
+        // given
+        every { personRepository.deleteById(any()) } just Runs
+        // when
+        personService.deleteById(1L)
+        // then
+        verify { personRepository.deleteById(1L) }
+    }
+
+    @Test
     @DisplayName("Retrieve list with all persons")
     fun `Find all persons in a repository`() {
         // given
-        val persons: Iterable<Person> = createPersons()
+        val persons: Iterable<Person> = CreatePersonList.create()
         // when
         every { personRepository.findAll() } returns persons
         val result = personService.findAll()
@@ -45,7 +60,7 @@ class PersonServiceTest {
     @DisplayName("Retrieve a person by its Id")
     fun `Find a person by id`() {
         // given
-        val persons: Iterable<Person> = createPersons()
+        val persons: Iterable<Person> = CreatePersonList.create()
         // when
         every { personRepository.findById(any()) } returns Optional.of(persons.first())
         val result = personService.getById(1)
@@ -71,7 +86,7 @@ class PersonServiceTest {
     @DisplayName("Save new person object")
     fun `Save person object`() {
         // given
-        val firstPerson: Person = createPersons().first()
+        val firstPerson: Person = CreatePersonModel.create()
         // when
         every { personRepository.save(firstPerson) } returns firstPerson
         val savedPerson = personService.save(firstPerson)
@@ -87,35 +102,14 @@ class PersonServiceTest {
     @DisplayName("Update attributes of existing person")
     fun `Update an existing person`() {
         // given
-        val personList = createPersons()
-        val moritz = personList.last()
-        moritz.id = 1
+        val personList = CreatePersonList.create()
+        val max = personList.first()
+        max.lastName = "Schubert"
         // when
-        val slot = slot<Person>()
-     //   every { personService.save(capture(slot)) } returns slot.captured
-        every {personRepository.save(any())} returns moritz
-        val updatedPerson = personService.update(moritz)
+        every { personRepository.findById(any()) } returns Optional.of(max)
+        every { personRepository.save(any()) } returns max
+        val updatedPerson = personService.update(max, 1L)
         // then
-        assertEquals(1, updatedPerson.id)
-        assertEquals("Moritz", updatedPerson.firstName)
-    }
-
-    private fun createPersons(): Iterable<Person> {
-        val max = Person(
-            id = 1,
-            firstName = "Max",
-            lastName = "Schneider",
-            email = "mschneider@mail.de",
-            phone = "0177 233455",
-            bio = "This is a bio...."
-        )
-        val moritz = Person(
-            id = 2,
-            firstName = "Moritz",
-            lastName = "Weber",
-            email = "mweber@mail.de",
-            phone = "0177 554433"
-        )
-        return listOf(max, moritz)
+        assertEquals("Schubert", updatedPerson.lastName)
     }
 }

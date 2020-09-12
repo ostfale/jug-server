@@ -16,11 +16,15 @@ class PersonService(val personRepository: PersonRepository) {
 
     fun save(person: Person): Person = personRepository.save(person)
 
-    fun update(updatedPerson: Person): Person {
-        val personId = updatedPerson.id
-        if (personId != null) {
-            save(updatedPerson)
+    fun update(updatedPerson: Person, id: Long): Person {
+        var savedPerson = getById(id)
+        savedPerson.apply {
+            firstName = updatedPerson.firstName
+            lastName = updatedPerson.lastName
+            email = updatedPerson.email
+            phone = updatedPerson.phone
+            bio = updatedPerson.bio
         }
-        return updatedPerson
+        return save(savedPerson)
     }
 }
