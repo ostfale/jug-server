@@ -2,7 +2,9 @@ package de.ostfale.jug.server.service
 
 import com.ninjasquad.springmockk.MockkBean
 import de.ostfale.jug.server.CreateLocationList
+import de.ostfale.jug.server.CreateLocationModel
 import de.ostfale.jug.server.domain.Location
+import de.ostfale.jug.server.exceptions.LocationNotFoundException
 import de.ostfale.jug.server.repository.LocationRepository
 import io.mockk.Runs
 import io.mockk.every
@@ -70,5 +72,47 @@ internal class LocationServiceTest {
         Assertions.assertEquals("Großer Burstah", result.streetName)
         Assertions.assertEquals("50-52", result.streetNumber)
         Assertions.assertEquals("Meeting 1", result.rooms.first().name)
+    }
+
+    @Test
+    @DisplayName("Retrieve non existing location by its Id")
+    fun `Retrieving non existing location throws an LocationNotFoundException`() {
+        // when
+        every { locationRepository.findById(any()) } throws LocationNotFoundException(0)
+        assertThrows<LocationNotFoundException> {
+            locationService.getById(0)
+        }
+    }
+
+    @Test
+    @DisplayName("Save new location object")
+    fun `Save location object`() {
+        // given
+        val firstLocation: Location = CreateLocationModel.create()
+        // when
+        every { locationRepository.save(firstLocation) } returns firstLocation
+        val savedLocation = locationService.save(firstLocation)
+        // then
+        Assertions.assertEquals("Academic Work", savedLocation.name)
+        Assertions.assertEquals("DEU", savedLocation.country)
+        Assertions.assertEquals("Hamburg", savedLocation.city)
+        Assertions.assertEquals("Großer Burstah", savedLocation.streetName)
+        Assertions.assertEquals("50-52", savedLocation.streetNumber)
+        Assertions.assertEquals("Meeting 1", savedLocation.rooms.first().name)
+    }
+
+    @Test
+    @DisplayName("Update attributes of existing location")
+    fun `Update an existing locatin`() {
+        // given
+        val locationList = CreateLocationList.create()
+        val academic = locationList.first()
+        academic.name = "New Academic Workplace"
+        // when
+        every { locationRepository.findById(any()) } returns Optional.of(academic)
+        every { locationRepository.save(any()) } returns academic
+        val updatedLocation = locationService.update(academic, 1L)
+        // then
+        Assertions.assertEquals("New Academic Workplace", updatedLocation.name)
     }
 }
