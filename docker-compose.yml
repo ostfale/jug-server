@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  database:
+    restart: "no"
+    image: postgres:latest
+    container_name: us_pg
+    network_mode: bridge
+    ports:
+      - "5432:5432"
+    env_file:
+      - database.env
+    volumes:
+      - pg_data:/var/lib/postgres/data/
+volumes:
+  pg_data: {}
