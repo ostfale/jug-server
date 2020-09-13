@@ -19,7 +19,7 @@ import java.util.*
 @Tag("unitTest")
 @DisplayName("Perform CRUD operations for Person service")
 @ExtendWith(SpringExtension::class)
-class PersonServiceTest {
+internal class PersonServiceTest {
 
     @MockkBean
     lateinit var personRepository: PersonRepository
@@ -32,7 +32,7 @@ class PersonServiceTest {
     }
 
     @Test
-    @DisplayName("Service calls delete method of repo")
+    @DisplayName("Service calls delete person method of repo")
     fun `Verify that repository delete method is called by service`() {
         // given
         every { personRepository.deleteById(any()) } just Runs

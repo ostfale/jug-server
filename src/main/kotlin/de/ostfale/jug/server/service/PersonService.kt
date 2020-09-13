@@ -17,7 +17,7 @@ class PersonService(val personRepository: PersonRepository) {
     fun save(person: Person): Person = personRepository.save(person)
 
     fun update(updatedPerson: Person, id: Long): Person {
-        var savedPerson = getById(id)
+        val savedPerson = getById(id)
         savedPerson.apply {
             firstName = updatedPerson.firstName
             lastName = updatedPerson.lastName

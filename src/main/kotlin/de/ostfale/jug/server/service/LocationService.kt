@@ -16,4 +16,18 @@ class LocationService(val locationRepository: LocationRepository) {
 
     fun save(person: Location): Location = locationRepository.save(person)
 
+    fun update(updateLocation: Location, id: Long): Location {
+        val savedLocation = getById(id)
+        savedLocation.apply {
+            name = updateLocation.name
+            country = updateLocation.country
+            city = updateLocation.city
+            postalCode = updateLocation.postalCode
+            streetName = updateLocation.streetName
+            streetNumber = updateLocation.streetNumber
+            contactId = updateLocation.contactId
+            rooms = updateLocation.rooms
+        }
+        return save(savedLocation)
+    }
 }
