@@ -2,6 +2,7 @@ package de.ostfale.jug.server
 
 import Person
 import de.ostfale.jug.server.domain.Location
+import de.ostfale.jug.server.domain.LocationDTO
 import de.ostfale.jug.server.domain.Room
 
 object CreatePersonModel {
@@ -58,6 +59,32 @@ object CreateLocationModel {
             streetName = aStreetName,
             streetNumber = aStreetNumber,
             contactId = aContactId,
+            rooms = aRoomsList
+        )
+    }
+}
+
+object CreateLocationDto {
+    fun create(
+        anId: Long = 1L,
+        aName: String = "Academic Work",
+        aCountry: String = "DEU",
+        aCity: String = "Hamburg",
+        aPostalCode: String = "20457",
+        aStreetName: String = "Großer Burstah",
+        aStreetNumber: String = "50-52",
+        aContact: Person = CreatePersonModel.create(),
+        aRoomsList: Set<Room> = mutableSetOf(Room(name = "Meeting 1", capacity = 50))
+    ): LocationDTO {
+        return LocationDTO(
+            id = anId,
+            name = aName,
+            country = aCountry,
+            city = aCity,
+            postalCode = aPostalCode,
+            streetName = aStreetName,
+            streetNumber = aStreetNumber,
+            contact = aContact,
             rooms = aRoomsList
         )
     }
