@@ -16,7 +16,7 @@ class PersonController(val personService: PersonService) {
 
     @GetMapping("/")
     fun findAll(): ResponseEntity<List<Person>> {
-        log.debug("GET list of persons")
+        log.debug("GET list of Persons")
         return ResponseEntity(personService.findAll(), HttpStatus.OK)
     }
 

@@ -29,3 +29,4 @@ build/
 .vscode/
 .mvn/*
 logs/*
+/src/main/resources/docker/database.env

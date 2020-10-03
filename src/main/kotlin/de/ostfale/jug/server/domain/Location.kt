@@ -4,7 +4,6 @@ import Person
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 
-
 data class Location(@Column("location_id") @Id var id: Long? = null,
                     var name: String,
                     var country: String = "DEU",
