@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @Tag("unitTest")
 @DisplayName("Test REST access for person controller")
-@ExtendWith(SpringExtension::class)
 @ActiveProfiles("test")
 @WebMvcTest(controllers = [MockMvcValidationConfiguration::class, PersonController::class])
 internal class PersonControllerTest {
