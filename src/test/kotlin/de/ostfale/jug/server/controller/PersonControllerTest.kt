@@ -11,9 +11,12 @@ import io.mockk.just
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.post
@@ -21,12 +24,27 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @Tag("unitTest")
-@WebMvcTest
 @DisplayName("Test REST access for person controller")
-internal class PersonControllerTest(@Autowired val mockMvc: MockMvc) {
+@ExtendWith(SpringExtension::class)
+@ActiveProfiles("test")
+@WebMvcTest(controllers = [MockMvcValidationConfiguration::class, PersonController::class])
+internal class PersonControllerTest {
+
+    @Autowired
+    lateinit var mockMvc: MockMvc
 
     @MockkBean
     lateinit var personService: PersonService
+
+    @Test
+    @DisplayName("Delete a person")
+    internal fun `Delete a person and receive 'No Content' status`() {
+        // when
+        every { personService.deleteById(any()) } just Runs
+        // then
+        mockMvc.delete("/api/v1/person/1")
+            .andExpect { MockMvcResultMatchers.status().isNoContent }
+    }
 
     @Test
     @DisplayName("Read all persons per REST from DB")
@@ -75,15 +93,5 @@ internal class PersonControllerTest(@Autowired val mockMvc: MockMvc) {
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json("""{"id":1}""") }
         }
-    }
-
-    @Test
-    @DisplayName ("Delete a person")
-    internal fun `Delete a person and receive 'No Content' status`() {
-        // when
-        every { personService.deleteById(any()) } just Runs
-        // then
-        mockMvc.delete("/api/v1/id")
-            .andExpect { MockMvcResultMatchers.status().isNoContent }
     }
 }

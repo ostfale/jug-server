@@ -52,6 +52,7 @@ object CreateLocationModel {
         aRoomsList: Set<Room> = mutableSetOf(Room(name = "Meeting 1", capacity = 50))
     ): Location {
         return Location(
+            id = anId,
             name = aName,
             country = aCountry,
             city = aCity,
