@@ -1,13 +1,12 @@
 package de.ostfale.jug.server
 
 import Person
-import de.ostfale.jug.server.domain.Location
-import de.ostfale.jug.server.domain.LocationDTO
-import de.ostfale.jug.server.domain.Room
+import de.ostfale.jug.server.domain.*
+import java.time.LocalDateTime
 
 object CreatePersonModel {
     fun create(
-        anId: Long = 1,
+        anId: Long = 10,
         aFirstName: String = "Max",
         aLastName: String = "Schneider",
         anEmail: String = "mschneider@mail.de",
@@ -29,7 +28,7 @@ object CreatePersonList {
     fun create(): List<Person> {
         val anna = CreatePersonModel.create()
         val moritz = CreatePersonModel.create(
-            anId = 2,
+            anId = 11,
             aFirstName = "Moritz",
             aLastName = "Weber",
             aPhone = "0177 554433",
@@ -41,7 +40,7 @@ object CreatePersonList {
 
 object CreateLocationModel {
     fun create(
-        anId: Long = 1L,
+        anId: Long = 20L,
         aName: String = "Academic Work",
         aCountry: String = "DEU",
         aCity: String = "Hamburg",
@@ -67,7 +66,7 @@ object CreateLocationModel {
 
 object CreateLocationDto {
     fun create(
-        anId: Long = 1L,
+        anId: Long = 21L,
         aName: String = "Academic Work",
         aCountry: String = "DEU",
         aCity: String = "Hamburg",
@@ -102,5 +101,89 @@ object CreateLocationList {
             aContactId = 2L
         )
         return listOf(academic, haw)
+    }
+}
+
+object CreateEventList {
+    fun create(): List<Event> {
+        val kotlin = CreateEventModel.create()
+        val java = CreateEventModel.create(
+            anId = 31,
+            aTitle = "Java",
+            aSpeakerId = 11
+        )
+        return listOf(kotlin, java)
+    }
+}
+
+object CreateEventModel {
+    fun create(
+        anId: Long = 30L,
+        aTitle: String = "Kotlin",
+        aContent: String = "A short history of Kotlin",
+        aRemark: String = "jvm language",
+        aDateTime: LocalDateTime = LocalDateTime.now(),
+        anOnlineEvent: Boolean = false,
+        isCompleteEvent: Boolean = true,
+        anEventStatus: EventStatus = EventStatus.PLANNED,
+        aLocationId: Long = 20,
+        aSpeakerId: Long = 10,
+        aHistory: MutableList<Note> = mutableListOf(CreateNote.create())
+    ): Event {
+        return Event(
+            id = anId,
+            title = aTitle,
+            content = aContent,
+            remark = aRemark,
+            dateTime = aDateTime,
+            isOnlineEvent = anOnlineEvent,
+            isComplete = isCompleteEvent,
+            eventStatus = anEventStatus,
+            locationId = aLocationId,
+            speakerId = aSpeakerId,
+            history = aHistory
+        )
+    }
+}
+
+object CreateEventDto {
+    fun create(
+        anId: Long = 30L,
+        aTitle: String = "Kotlin",
+        aContent: String = "A short history of Kotlin",
+        aRemark: String = "jvm language",
+        aDateTime: LocalDateTime = LocalDateTime.now(),
+        anOnlineEvent: Boolean = false,
+        isCompleteEvent: Boolean = true,
+        anEventStatus: EventStatus = EventStatus.PLANNED,
+        aLocation: Location = CreateLocationModel.create(),
+        aSpeaker: Person = CreatePersonModel.create(),
+        aHistory: MutableList<Note> = mutableListOf(CreateNote.create())
+    ): EventDTO {
+        return EventDTO(
+            id = anId,
+            title = aTitle,
+            content = aContent,
+            remark = aRemark,
+            dateTime = aDateTime,
+            isOnlineEvent = anOnlineEvent,
+            isComplete = isCompleteEvent,
+            eventStatus = anEventStatus,
+            location = aLocation,
+            speaker = aSpeaker,
+            history = aHistory
+        )
+    }
+}
+
+object CreateNote {
+    fun create(
+        aTimeStamp: LocalDateTime = LocalDateTime.now(),
+        aContent: String = "Initial Planning"
+    ): Note {
+        return Note(
+            timestamp = aTimeStamp,
+            content = aContent
+        )
     }
 }
