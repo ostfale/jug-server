@@ -14,7 +14,7 @@ class LocationService(val locationRepository: LocationRepository) {
 
     fun deleteById(id: Long) = locationRepository.deleteById(id)
 
-    fun save(person: Location): Location = locationRepository.save(person)
+    fun save(location: Location): Location = locationRepository.save(location)
 
     fun update(updateLocation: Location, id: Long): Location {
         val savedLocation = getById(id)
