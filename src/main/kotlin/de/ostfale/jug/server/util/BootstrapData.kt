@@ -1,20 +1,23 @@
 package de.ostfale.jug.server.util
 
 import Person
-import de.ostfale.jug.server.domain.Location
-import de.ostfale.jug.server.domain.Room
+import de.ostfale.jug.server.domain.*
+import de.ostfale.jug.server.repository.EventRepository
 import de.ostfale.jug.server.repository.LocationRepository
 import de.ostfale.jug.server.repository.PersonRepository
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
+import java.time.Month
 
 @Component
 @Profile("dev")
 class BootstrapData(
     val personRepository: PersonRepository,
-    val locationRepository: LocationRepository
+    val locationRepository: LocationRepository,
+    val eventRepository: EventRepository
 ) : CommandLineRunner {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -85,5 +88,19 @@ class BootstrapData(
         )
         locationRepository.save(academicWork)
         locationRepository.save(haw)
+
+        val testEvent = Event(
+            title = "Kotlin in a Nutshell",
+            content = "Kotlin is a JVM Language and so on...",
+            remark = "No remark yet!",
+            dateTime = LocalDateTime.of(2020, Month.DECEMBER, 17, 19, 0),
+            isOnlineEvent = false,
+            isComplete = true,
+            eventStatus = EventStatus.PLANNED,
+            locationId = academicWork.id,
+            speakerId = nina.id,
+            history = mutableSetOf(Note(timestamp = LocalDateTime.now(), content = "First planning finished"))
+        )
+        eventRepository.save(testEvent)
     }
 }

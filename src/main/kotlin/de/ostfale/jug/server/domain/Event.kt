@@ -16,7 +16,7 @@ data class Event(
     var eventStatus: EventStatus,
     var locationId: Long?,
     var speakerId: Long?,
-    var history: MutableList<Note> = mutableListOf()
+    var history: Set<Note> = HashSet()
 )
 
 data class EventDTO(
@@ -30,7 +30,7 @@ data class EventDTO(
     var eventStatus: EventStatus,
     var location: Location?,
     var speaker: Person?,
-    var history: MutableList<Note> = mutableListOf()
+    var history: Set<Note> = HashSet()
 )
 
 data class Note(

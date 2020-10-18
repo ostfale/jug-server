@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS location;
+DROP TABLE IF EXISTS note;
+DROP TABLE IF EXISTS event;
 
 CREATE TABLE IF NOT EXISTS location
 (
@@ -10,7 +12,7 @@ CREATE TABLE IF NOT EXISTS location
     city          VARCHAR(255),
     postal_code   VARCHAR(255),
     street_name   VARCHAR(255),
-    contact_id       INTEGER,
+    contact_id    INTEGER,
     street_number VARCHAR(255)
 );
 
@@ -30,4 +32,25 @@ CREATE TABLE IF NOT EXISTS room
     name     VARCHAR(255),
     capacity INTEGER,
     remark   TEXT
+);
+
+CREATE TABLE IF NOT EXISTS event
+(
+    event_id        SERIAL PRIMARY KEY,
+    title           VARCHAR(255) NOT NULL,
+    content         TEXT,
+    remark          TEXT,
+    date_time       timestamptz,
+    is_online_event BOOLEAN,
+    is_complete     BOOLEAN,
+    event_status    VARCHAR(255),
+    location_id     INTEGER,
+    speaker_id      INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS note
+(
+    event    INTEGER,
+    timestamp timestamptz,
+    content   text
 )

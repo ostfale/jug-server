@@ -128,7 +128,7 @@ object CreateEventModel {
         anEventStatus: EventStatus = EventStatus.PLANNED,
         aLocationId: Long = 20,
         aSpeakerId: Long = 10,
-        aHistory: MutableList<Note> = mutableListOf(CreateNote.create())
+        aHistory: Set<Note> = mutableSetOf(CreateNote.create())
     ): Event {
         return Event(
             id = anId,
@@ -158,7 +158,7 @@ object CreateEventDto {
         anEventStatus: EventStatus = EventStatus.PLANNED,
         aLocation: Location = CreateLocationModel.create(),
         aSpeaker: Person = CreatePersonModel.create(),
-        aHistory: MutableList<Note> = mutableListOf(CreateNote.create())
+        aHistory: Set<Note> = mutableSetOf(CreateNote.create())
     ): EventDTO {
         return EventDTO(
             id = anId,
