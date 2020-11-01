@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/person")
-class PersonController(val personService: PersonService) {
+class PersonController(private val personService: PersonService) {
 
     private val log = LoggerFactory.getLogger(javaClass)
 

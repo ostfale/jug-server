@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/location")
 class LocationController(
-    val locationService: LocationService,
-    val personService: PersonService
+    private val locationService: LocationService,
+    private val personService: PersonService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
