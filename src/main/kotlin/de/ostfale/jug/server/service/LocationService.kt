@@ -6,7 +6,9 @@ import de.ostfale.jug.server.repository.LocationRepository
 import org.springframework.stereotype.Service
 
 @Service
-class LocationService(val locationRepository: LocationRepository) {
+class LocationService(
+    private val locationRepository: LocationRepository
+) {
 
     fun findAll(): List<Location> = locationRepository.findAll().toList()
 

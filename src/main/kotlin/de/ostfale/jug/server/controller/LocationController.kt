@@ -37,7 +37,7 @@ class LocationController(
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody locationDTO: LocationDTO): Location {
-        log.debug("Location with name ${locationDTO.name}  is going to be created")
+        log.debug("Create location with name ${locationDTO.name}")
         val location: Location = locationDTO.toLocation()
         return locationService.save(location)
     }

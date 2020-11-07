@@ -6,7 +6,9 @@ import de.ostfale.jug.server.repository.EventRepository
 import org.springframework.stereotype.Service
 
 @Service
-class EventService(val eventRepository: EventRepository) {
+class EventService(
+    private val eventRepository: EventRepository
+) {
 
     fun findAll(): List<Event> = eventRepository.findAll().toList()
 
@@ -15,11 +17,4 @@ class EventService(val eventRepository: EventRepository) {
     fun deleteById(id: Long) = eventRepository.deleteById(id)
 
     fun save(event: Event): Event = eventRepository.save(event)
-
-    fun update(updateEvent: Event, id: Long): Event {
-        val savedEvent = getById(id)
-        savedEvent.apply {
-        }
-        return save(savedEvent)
-    }
 }

@@ -90,7 +90,7 @@ internal class PersonControllerTest {
         }.andExpect {
             status { isCreated }
             content { contentType(MediaType.APPLICATION_JSON) }
-            content { json("""{"id":1}""") }
+            content { json("""{"id":10}""") }
         }
     }
 }
