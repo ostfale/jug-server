@@ -117,6 +117,7 @@ object CreateEventList {
 }
 
 object CreateEventModel {
+    private val note1 = CreateNote.create()
     fun create(
         anId: Long = 30L,
         aTitle: String = "Kotlin",
@@ -128,7 +129,7 @@ object CreateEventModel {
         anEventStatus: EventStatus = EventStatus.PLANNED,
         aLocationId: Long = 20,
         aSpeakerId: Long = 10,
-        aHistory: Set<Note> = mutableSetOf(CreateNote.create())
+        aHistory: Set<Note> = mutableSetOf(note1)
     ): Event {
         return Event(
             id = anId,

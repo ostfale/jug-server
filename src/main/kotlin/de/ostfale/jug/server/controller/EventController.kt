@@ -3,11 +3,8 @@ package de.ostfale.jug.server.controller
 import de.ostfale.jug.server.converter.toDTO
 import de.ostfale.jug.server.converter.toDTOList
 import de.ostfale.jug.server.converter.toEvent
-import de.ostfale.jug.server.converter.toLocation
 import de.ostfale.jug.server.domain.Event
 import de.ostfale.jug.server.domain.EventDTO
-import de.ostfale.jug.server.domain.Location
-import de.ostfale.jug.server.domain.LocationDTO
 import de.ostfale.jug.server.service.EventService
 import de.ostfale.jug.server.service.LocationService
 import de.ostfale.jug.server.service.PersonService

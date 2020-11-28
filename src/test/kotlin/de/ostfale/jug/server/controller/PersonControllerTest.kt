@@ -88,7 +88,7 @@ internal class PersonControllerTest {
             content = jacksonObjectMapper().writeValueAsString(max)
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
-            status { isCreated }
+            status { this.isCreated() }
             content { contentType(MediaType.APPLICATION_JSON) }
             content { json("""{"id":10}""") }
         }
