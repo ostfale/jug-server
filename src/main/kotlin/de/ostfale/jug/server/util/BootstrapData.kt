@@ -89,7 +89,8 @@ class BootstrapData(
         locationRepository.save(academicWork)
         locationRepository.save(haw)
 
-        val testEvent = Event(
+        log.debug("Bootstrap: create some events...")
+        val kotlinEvent = Event(
             title = "Kotlin in a Nutshell",
             content = "Kotlin is a JVM Language and so on...",
             remark = "No remark yet!",
@@ -101,6 +102,20 @@ class BootstrapData(
             speakerId = nina.id,
             history = mutableSetOf(Note(timestamp = LocalDateTime.now(), content = "First planning finished"))
         )
-        eventRepository.save(testEvent)
+
+        val javaEvent = Event(
+            title = "Java 15",
+            content = "New Features of Java 15...",
+            remark = "Cool session",
+            dateTime = LocalDateTime.of(2020, Month.DECEMBER, 21, 19, 0),
+            isOnlineEvent = true,
+            isComplete = false,
+            eventStatus = EventStatus.PLANNED,
+            locationId = haw.id,
+            speakerId = axel.id,
+            history = mutableSetOf(Note(timestamp = LocalDateTime.now(), content = "Bereits alles klar..."))
+        )
+        eventRepository.save(kotlinEvent)
+        eventRepository.save(javaEvent)
     }
 }
