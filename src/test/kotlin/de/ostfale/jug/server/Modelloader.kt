@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 object CreatePersonModel {
     fun create(
-        anId: Long = 10,
+        anId: Long? = 10,
         aFirstName: String = "Max",
         aLastName: String = "Schneider",
         anEmail: String = "mschneider@mail.de",
@@ -185,6 +185,20 @@ object CreateNote {
         return Note(
             timestamp = aTimeStamp,
             content = aContent
+        )
+    }
+}
+
+object CreateTag {
+    fun create(
+        anId: Long = 40L,
+        aName: String = "Kotlin",
+        eventIds: MutableSet<EventRef> = HashSet()
+    ): Tag {
+        return Tag(
+            id = anId,
+            name = aName,
+            eventIds = eventIds
         )
     }
 }

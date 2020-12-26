@@ -3,6 +3,8 @@ DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS location;
 DROP TABLE IF EXISTS note;
 DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS tag_name;
+DROP TABLE IF EXISTS event_tag;
 
 CREATE TABLE IF NOT EXISTS location
 (
@@ -50,7 +52,20 @@ CREATE TABLE IF NOT EXISTS event
 
 CREATE TABLE IF NOT EXISTS note
 (
-    event    INTEGER,
+    event     INTEGER,
     timestamp timestamptz,
     content   text
+);
+
+CREATE TABLE IF NOT EXISTS tag_name
+(
+    tag_id SERIAL PRIMARY KEY,
+    name   VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS event_tag
+(
+    event INTEGER,
+    tag   INTEGER,
+    PRIMARY KEY (event, tag)
 )

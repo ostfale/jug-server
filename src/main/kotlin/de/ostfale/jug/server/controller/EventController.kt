@@ -32,7 +32,9 @@ class EventController(
     fun findById(@PathVariable id: Long): ResponseEntity<EventDTO> {
         log.debug("GET event with id : $id")
         val eventDTO: EventDTO = eventService.getById(id).toDTO(personService, locationService)
-        return ResponseEntity(eventDTO, HttpStatus.OK)
+        return ResponseEntity
+            .ok()
+            .body(eventDTO)
     }
 
     @PostMapping("/")
