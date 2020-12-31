@@ -130,7 +130,7 @@ object CreateEventModel {
         aLocationStatus: LocationStatus = LocationStatus.PLANNED,
         aScheduleStatus: ScheduleStatus = ScheduleStatus.PLANNED,
         aLocationId: Long = 20,
-        aSpeakerRefList: MutableSet<PersonRef> = mutableSetOf(PersonRef(personId = 10L)),
+        aSpeakerRefList: MutableSet<PersonRef> = mutableSetOf(PersonRef(person = 10L)),
         aHistory: Set<Note> = mutableSetOf(note1)
     ): Event {
         return Event(

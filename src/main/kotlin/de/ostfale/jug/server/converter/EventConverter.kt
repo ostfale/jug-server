@@ -32,7 +32,7 @@ fun Event.toDTO(
     }
 
     val persons = mutableSetOf<Person>()
-    speakerIDs.forEach { personRef -> persons.add(personService.getById(personRef.personId)) }
+    speakerIDs.forEach { personRef -> persons.add(personService.getById(personRef.person)) }
 
     return EventDTO(
         id = id,

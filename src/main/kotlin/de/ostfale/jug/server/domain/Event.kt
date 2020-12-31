@@ -23,7 +23,7 @@ data class Event(
 ) {
     fun addSpeaker(aPerson: Person) {
         val personId = aPerson.id
-        if (personId != null) this.speakerIds.add(PersonRef(personId = personId))
+        if (personId != null) this.speakerIds.add(PersonRef(person = personId))
     }
 }
 
@@ -39,13 +39,13 @@ data class EventDTO(
     var locationStatus: LocationStatus,
     var scheduleStatus: ScheduleStatus,
     var location: LocationDTO?,
-    var speaker: Set<Person>?,
+    var speaker: Set<Person> = HashSet(),
     var history: Set<Note> = HashSet()
 )
 
 @Table("speaker_event")
 data class PersonRef(
-    var personId: Long
+    var person: Long
 )
 
 data class Note(

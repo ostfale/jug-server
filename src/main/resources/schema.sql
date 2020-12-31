@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS note;
 DROP TABLE IF EXISTS event;
 DROP TABLE IF EXISTS tag_name;
 DROP TABLE IF EXISTS event_tag;
+DROP TABLE IF EXISTS speaker_event;
 
 CREATE TABLE IF NOT EXISTS location
 (
@@ -48,8 +49,7 @@ CREATE TABLE IF NOT EXISTS event
     event_status    VARCHAR(255),
     location_status VARCHAR(255),
     schedule_status VARCHAR(255),
-    location_id     INTEGER,
-    speaker_id      INTEGER
+    location_id     INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS note
@@ -70,4 +70,12 @@ CREATE TABLE IF NOT EXISTS event_tag
     event INTEGER,
     tag   INTEGER,
     PRIMARY KEY (event, tag)
+);
+
+CREATE TABLE IF NOT EXISTS speaker_event
+(
+    person INTEGER,
+    event  INTEGER,
+    PRIMARY KEY (person, event)
 )
+
