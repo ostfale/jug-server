@@ -101,7 +101,7 @@ class BootstrapData(
             locationStatus = LocationStatus.PLANNED,
             scheduleStatus = ScheduleStatus.PLANNED,
             locationId = academicWork.id,
-            speakerId = nina.id,
+            speakerIds = mutableSetOf(PersonRef(nina.id!!)),
             history = mutableSetOf(Note(timestamp = LocalDateTime.now(), content = "First planning finished"))
         )
 
@@ -116,7 +116,7 @@ class BootstrapData(
             locationStatus = LocationStatus.PLANNED,
             scheduleStatus = ScheduleStatus.PLANNED,
             locationId = haw.id,
-            speakerId = axel.id,
+            speakerIds = mutableSetOf(PersonRef(axel.id!!)),
             history = mutableSetOf(Note(timestamp = LocalDateTime.now(), content = "Bereits alles klar..."))
         )
         eventRepository.save(kotlinEvent)

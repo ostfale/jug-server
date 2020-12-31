@@ -2,6 +2,7 @@ package de.ostfale.jug.server.converter
 
 import com.ninjasquad.springmockk.MockkBean
 import de.ostfale.jug.server.CreateEventModel
+import de.ostfale.jug.server.CreateLocationDto
 import de.ostfale.jug.server.CreateLocationModel
 import de.ostfale.jug.server.CreatePersonModel
 import de.ostfale.jug.server.service.LocationService
@@ -31,6 +32,7 @@ internal class EventConverterTest {
         // given
         val max = CreatePersonModel.create()
         val academicWork = CreateLocationModel.create()
+        val academicWorkDTO = CreateLocationDto.create(anId = 20L)
         every { personService.getById(any()) } returns max
         every { locationService.getById(any()) } returns academicWork
         val kotlinEvent = CreateEventModel.create()
@@ -41,8 +43,8 @@ internal class EventConverterTest {
         assertEquals(eventDto.title, kotlinEvent.title)
         assertEquals(eventDto.content, kotlinEvent.content)
         assertEquals(eventDto.dateTime, kotlinEvent.dateTime)
-        assertEquals(eventDto.location, academicWork)
-        assertEquals(eventDto.speaker, max)
+        assertEquals(eventDto.location, academicWorkDTO)
+        assertEquals(eventDto.speaker?.size, 1)
         assertEquals(1, eventDto.history.size)
     }
 }

@@ -110,7 +110,7 @@ object CreateEventList {
         val java = CreateEventModel.create(
             anId = 31,
             aTitle = "Java",
-            aSpeakerId = 11
+            aSpeakerRefList = mutableSetOf(PersonRef(11L))
         )
         return listOf(kotlin, java)
     }
@@ -130,7 +130,7 @@ object CreateEventModel {
         aLocationStatus: LocationStatus = LocationStatus.PLANNED,
         aScheduleStatus: ScheduleStatus = ScheduleStatus.PLANNED,
         aLocationId: Long = 20,
-        aSpeakerId: Long = 10,
+        aSpeakerRefList: MutableSet<PersonRef> = mutableSetOf(PersonRef(personId = 10L)),
         aHistory: Set<Note> = mutableSetOf(note1)
     ): Event {
         return Event(
@@ -145,7 +145,7 @@ object CreateEventModel {
             locationStatus = aLocationStatus,
             scheduleStatus = aScheduleStatus,
             locationId = aLocationId,
-            speakerId = aSpeakerId,
+            speakerIds = aSpeakerRefList,
             history = aHistory
         )
     }
@@ -164,7 +164,7 @@ object CreateEventDto {
         aLocationStatus: LocationStatus = LocationStatus.PLANNED,
         aScheduleStatus: ScheduleStatus = ScheduleStatus.PLANNED,
         aLocation: LocationDTO = CreateLocationDto.create(),
-        aSpeaker: Person = CreatePersonModel.create(),
+        aSpeaker: MutableSet<Person> = mutableSetOf(CreatePersonModel.create()),
         aHistory: Set<Note> = mutableSetOf(CreateNote.create())
     ): EventDTO {
         return EventDTO(

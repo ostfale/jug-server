@@ -3,6 +3,7 @@ package de.ostfale.jug.server.domain
 import Person
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.Table
 import java.time.LocalDateTime
 
 data class Event(
@@ -17,9 +18,14 @@ data class Event(
     var locationStatus: LocationStatus,
     var scheduleStatus: ScheduleStatus,
     var locationId: Long?,
-    var speakerId: Long?,
+    var speakerIds: MutableSet<PersonRef> = HashSet(),
     var history: Set<Note> = HashSet()
-)
+) {
+    fun addSpeaker(aPerson: Person) {
+        val personId = aPerson.id
+        if (personId != null) this.speakerIds.add(PersonRef(personId = personId))
+    }
+}
 
 data class EventDTO(
     val id: Long?,
@@ -33,8 +39,13 @@ data class EventDTO(
     var locationStatus: LocationStatus,
     var scheduleStatus: ScheduleStatus,
     var location: LocationDTO?,
-    var speaker: Person?,
+    var speaker: Set<Person>?,
     var history: Set<Note> = HashSet()
+)
+
+@Table("speaker_event")
+data class PersonRef(
+    var personId: Long
 )
 
 data class Note(

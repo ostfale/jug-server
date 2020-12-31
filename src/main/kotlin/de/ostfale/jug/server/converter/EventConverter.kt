@@ -4,6 +4,7 @@ import Person
 import de.ostfale.jug.server.domain.Event
 import de.ostfale.jug.server.domain.EventDTO
 import de.ostfale.jug.server.domain.LocationDTO
+import de.ostfale.jug.server.domain.PersonRef
 import de.ostfale.jug.server.service.LocationService
 import de.ostfale.jug.server.service.PersonService
 
@@ -22,19 +23,16 @@ fun Event.toDTO(
 ): EventDTO {
 
     var eventLocation: LocationDTO? = null
-    var eventSpeaker: Person? = null
-
     val locationID = this.locationId
-    val speakerID = this.speakerId
+    val speakerIDs: MutableSet<PersonRef> = this.speakerIds
 
     if (locationID != null) {
         val location = locationService.getById(locationID)
         eventLocation = location.toDTO(personService)
     }
 
-    if (speakerID != null) {
-        eventSpeaker = personService.getById(speakerID)
-    }
+    val persons = mutableSetOf<Person>()
+    speakerIDs.forEach { personRef -> persons.add(personService.getById(personRef.personId)) }
 
     return EventDTO(
         id = id,
@@ -48,12 +46,21 @@ fun Event.toDTO(
         locationStatus = locationStatus,
         scheduleStatus = scheduleStatus,
         location = eventLocation,
-        speaker = eventSpeaker,
+        speaker = persons,
         history = history
     )
 }
 
 fun EventDTO.toEvent(): Event {
+
+    val speakerRef = mutableSetOf<PersonRef>()
+    this.speaker?.forEach { person ->
+        val personId = person.id
+        if (personId != null) {
+            speakerRef.add(PersonRef(personId))
+        }
+    }
+
     return Event(
         id = id,
         title = title,
@@ -65,7 +72,7 @@ fun EventDTO.toEvent(): Event {
         locationStatus = locationStatus,
         scheduleStatus = scheduleStatus,
         locationId = this.location?.id,
-        speakerId = this.speaker?.id,
+        speakerIds = speakerRef,
         history = this.history
     )
 }
