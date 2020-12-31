@@ -3,7 +3,7 @@ package de.ostfale.jug.server.converter
 import Person
 import de.ostfale.jug.server.domain.Event
 import de.ostfale.jug.server.domain.EventDTO
-import de.ostfale.jug.server.domain.Location
+import de.ostfale.jug.server.domain.LocationDTO
 import de.ostfale.jug.server.service.LocationService
 import de.ostfale.jug.server.service.PersonService
 
@@ -21,14 +21,15 @@ fun Event.toDTO(
     locationService: LocationService
 ): EventDTO {
 
-    var eventLocation: Location? = null
+    var eventLocation: LocationDTO? = null
     var eventSpeaker: Person? = null
 
     val locationID = this.locationId
     val speakerID = this.speakerId
 
     if (locationID != null) {
-        eventLocation = locationService.getById(locationID)
+        val location = locationService.getById(locationID)
+        eventLocation = location.toDTO(personService)
     }
 
     if (speakerID != null) {
@@ -44,6 +45,8 @@ fun Event.toDTO(
         isOnlineEvent = isOnlineEvent,
         isComplete = isComplete,
         eventStatus = eventStatus,
+        locationStatus = locationStatus,
+        scheduleStatus = scheduleStatus,
         location = eventLocation,
         speaker = eventSpeaker,
         history = history
@@ -59,6 +62,8 @@ fun EventDTO.toEvent(): Event {
         dateTime = dateTime,
         isOnlineEvent = isOnlineEvent,
         eventStatus = eventStatus,
+        locationStatus = locationStatus,
+        scheduleStatus = scheduleStatus,
         locationId = this.location?.id,
         speakerId = this.speaker?.id,
         history = this.history

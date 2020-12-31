@@ -98,6 +98,8 @@ class BootstrapData(
             isOnlineEvent = false,
             isComplete = true,
             eventStatus = EventStatus.PLANNED,
+            locationStatus = LocationStatus.PLANNED,
+            scheduleStatus = ScheduleStatus.PLANNED,
             locationId = academicWork.id,
             speakerId = nina.id,
             history = mutableSetOf(Note(timestamp = LocalDateTime.now(), content = "First planning finished"))
@@ -111,6 +113,8 @@ class BootstrapData(
             isOnlineEvent = true,
             isComplete = false,
             eventStatus = EventStatus.PLANNED,
+            locationStatus = LocationStatus.PLANNED,
+            scheduleStatus = ScheduleStatus.PLANNED,
             locationId = haw.id,
             speakerId = axel.id,
             history = mutableSetOf(Note(timestamp = LocalDateTime.now(), content = "Bereits alles klar..."))

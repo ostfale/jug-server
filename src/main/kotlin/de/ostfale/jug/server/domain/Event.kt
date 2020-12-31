@@ -14,6 +14,8 @@ data class Event(
     var isOnlineEvent: Boolean = true,
     var isComplete: Boolean = false,
     var eventStatus: EventStatus,
+    var locationStatus: LocationStatus,
+    var scheduleStatus: ScheduleStatus,
     var locationId: Long?,
     var speakerId: Long?,
     var history: Set<Note> = HashSet()
@@ -28,7 +30,9 @@ data class EventDTO(
     var isOnlineEvent: Boolean = true,
     var isComplete: Boolean = false,
     var eventStatus: EventStatus,
-    var location: Location?,
+    var locationStatus: LocationStatus,
+    var scheduleStatus: ScheduleStatus,
+    var location: LocationDTO?,
     var speaker: Person?,
     var history: Set<Note> = HashSet()
 )
@@ -40,4 +44,12 @@ data class Note(
 
 enum class EventStatus {
     PLANNED, ONLINE, DONE, POSTPONED, CANCELED
+}
+
+enum class LocationStatus {
+    PLANNED, CONFIRMED, DENIED
+}
+
+enum class ScheduleStatus {
+    PLANNED, CONFIRMED, POSTPONED
 }

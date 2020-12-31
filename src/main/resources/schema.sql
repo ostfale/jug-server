@@ -46,6 +46,8 @@ CREATE TABLE IF NOT EXISTS event
     is_online_event BOOLEAN,
     is_complete     BOOLEAN,
     event_status    VARCHAR(255),
+    location_status VARCHAR(255),
+    schedule_status VARCHAR(255),
     location_id     INTEGER,
     speaker_id      INTEGER
 );

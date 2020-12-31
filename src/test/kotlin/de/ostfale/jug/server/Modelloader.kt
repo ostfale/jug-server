@@ -127,6 +127,8 @@ object CreateEventModel {
         anOnlineEvent: Boolean = false,
         isCompleteEvent: Boolean = true,
         anEventStatus: EventStatus = EventStatus.PLANNED,
+        aLocationStatus: LocationStatus = LocationStatus.PLANNED,
+        aScheduleStatus: ScheduleStatus = ScheduleStatus.PLANNED,
         aLocationId: Long = 20,
         aSpeakerId: Long = 10,
         aHistory: Set<Note> = mutableSetOf(note1)
@@ -140,6 +142,8 @@ object CreateEventModel {
             isOnlineEvent = anOnlineEvent,
             isComplete = isCompleteEvent,
             eventStatus = anEventStatus,
+            locationStatus = aLocationStatus,
+            scheduleStatus = aScheduleStatus,
             locationId = aLocationId,
             speakerId = aSpeakerId,
             history = aHistory
@@ -157,7 +161,9 @@ object CreateEventDto {
         anOnlineEvent: Boolean = false,
         isCompleteEvent: Boolean = true,
         anEventStatus: EventStatus = EventStatus.PLANNED,
-        aLocation: Location = CreateLocationModel.create(),
+        aLocationStatus: LocationStatus = LocationStatus.PLANNED,
+        aScheduleStatus: ScheduleStatus = ScheduleStatus.PLANNED,
+        aLocation: LocationDTO = CreateLocationDto.create(),
         aSpeaker: Person = CreatePersonModel.create(),
         aHistory: Set<Note> = mutableSetOf(CreateNote.create())
     ): EventDTO {
@@ -170,6 +176,8 @@ object CreateEventDto {
             isOnlineEvent = anOnlineEvent,
             isComplete = isCompleteEvent,
             eventStatus = anEventStatus,
+            locationStatus = aLocationStatus,
+            scheduleStatus = aScheduleStatus,
             location = aLocation,
             speaker = aSpeaker,
             history = aHistory
