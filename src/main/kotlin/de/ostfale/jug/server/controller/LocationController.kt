@@ -21,7 +21,7 @@ class LocationController(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    @GetMapping("/")
+    @GetMapping
     fun findAll(): ResponseEntity<List<LocationDTO>> {
         log.debug("GET list of Locations")
         return ResponseEntity(locationService.findAll().toDTOList(personService), HttpStatus.OK)
@@ -34,7 +34,7 @@ class LocationController(
         return ResponseEntity(locationDTO, HttpStatus.OK)
     }
 
-    @PostMapping("/")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody locationDTO: LocationDTO): Location {
         log.debug("Create location with name ${locationDTO.name}")

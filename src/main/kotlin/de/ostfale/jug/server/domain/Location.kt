@@ -1,7 +1,6 @@
 package de.ostfale.jug.server.domain
 
 import Person
-import com.fasterxml.jackson.annotation.JsonTypeInfo
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 
@@ -13,7 +12,7 @@ data class Location(
     var postalCode: String,
     var streetName: String,
     var streetNumber: String,
-    var contactId: Long,
+    var contactId: Long?,
     var rooms: Set<Room> = HashSet()
 )
 
@@ -25,8 +24,8 @@ data class LocationDTO(
     var postalCode: String,
     var streetName: String,
     var streetNumber: String,
-    var contact: Person,
-    var rooms: Set<Room>
+    var contact: Person?,
+    var rooms: Set<Room> = HashSet()
 )
 
 data class Room(

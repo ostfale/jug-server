@@ -12,8 +12,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
 
 logging:
   level:
-    sql: debug
+    sql: warn

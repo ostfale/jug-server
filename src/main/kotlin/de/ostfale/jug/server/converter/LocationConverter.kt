@@ -20,7 +20,7 @@ fun Location.toDTO(personsService: PersonService): LocationDTO {
         streetName = this.streetName,
         streetNumber = this.streetNumber,
         rooms = this.rooms,
-        contact = personsService.getById(this.contactId)
+        contact = this.contactId?.let { personsService.getById(it) }
     )
 }
 
@@ -34,6 +34,6 @@ fun LocationDTO.toLocation(): Location {
         streetName = this.streetName,
         streetNumber = this.streetNumber,
         rooms = this.rooms,
-        contactId = this.contact.id!!
+        contactId = this.contact?.id
     )
 }

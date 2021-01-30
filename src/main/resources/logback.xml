@@ -23,6 +23,8 @@
         </encoder>
     </appender>
 
+    <logger name="org.springframework.web" level="DEBUG" />
+
     <!-- LOG "de.ostfale*" at TRACE level -->
     <logger name="de.ostfale.jug" level="TRACE" additivity="false">
         <appender-ref ref="RollingFile"/>
