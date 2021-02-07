@@ -9,11 +9,12 @@ import de.ostfale.jug.server.service.LocationService
 import de.ostfale.jug.server.service.PersonService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/location")
+@RequestMapping("/api/v1/location", produces = [MediaType.APPLICATION_JSON_VALUE])
 class LocationController(
     private val locationService: LocationService,
     private val personService: PersonService
