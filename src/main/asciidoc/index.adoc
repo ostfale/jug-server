@@ -1,0 +1,13 @@
+= Documentation for REST access of server app
+
+This is an example output for a service running at http://localhost:8080:
+
+== Person API
+
+=== Get all persons
+
+.request
+include::{snippets}/getPersons/http-request.adoc[]
+
+.response
+include::{snippets}/getPersons/http-response.adoc[]
