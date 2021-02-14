@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
+import org.springframework.restdocs.operation.preprocess.Preprocessors.*
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
@@ -29,7 +30,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @DisplayName("Test REST access for person controller")
 @ActiveProfiles("test")
 @WebMvcTest(controllers = [MockMvcValidationConfiguration::class, PersonController::class])
-@AutoConfigureRestDocs(outputDir = "target/snippets")
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 internal class PersonControllerTest {
 
     @Autowired
@@ -50,7 +51,7 @@ internal class PersonControllerTest {
 
     @Test
     @DisplayName("Read all persons per REST from DB")
-    internal fun `Get all persons from database`() {
+    internal fun `getAllPersons`() {
         // given
         val persons = CreatePersonList.create()
         // when
@@ -61,7 +62,7 @@ internal class PersonControllerTest {
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.jsonPath("\$.[0].firstName").value("Max"))
             .andExpect(MockMvcResultMatchers.jsonPath("\$.[1].firstName").value("Moritz"))
-            .andDo(document("getPersons"))
+            .andDo(document("{methodName}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())),)
     }
 
     @Test
