@@ -11,30 +11,29 @@ import io.mockk.just
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete
 import org.springframework.restdocs.operation.preprocess.Preprocessors.*
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @Tag("unitTest")
 @DisplayName("Test REST access for person controller")
 @ActiveProfiles("test")
 @WebMvcTest(controllers = [MockMvcValidationConfiguration::class, PersonController::class])
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
-internal class PersonControllerTest {
-
-    @Autowired
-    lateinit var mockMvc: MockMvc
+internal class PersonControllerTest(
+    @Autowired val mockMvc: MockMvc
+) {
 
     @MockkBean
     lateinit var personService: PersonService
@@ -45,8 +44,10 @@ internal class PersonControllerTest {
         // when
         every { personService.deleteById(any()) } just Runs
         // then
-        mockMvc.delete("/api/v1/person/1")
-            .andExpect { MockMvcResultMatchers.status().isNoContent }
+        mockMvc.perform(delete("/api/v1/person/1"))
+            .andExpect(status().isNoContent)
+            .andDo(document("deletePerson"))
+            .andReturn()
     }
 
     @Test
@@ -62,7 +63,7 @@ internal class PersonControllerTest {
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.jsonPath("\$.[0].firstName").value("Max"))
             .andExpect(MockMvcResultMatchers.jsonPath("\$.[1].firstName").value("Moritz"))
-            .andDo(document("{methodName}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())),)
+            .andDo(document("getAllPersons", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
     }
 
     @Test

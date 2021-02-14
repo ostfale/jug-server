@@ -40,6 +40,7 @@ class PersonController(private val personService: PersonService) {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Long) {
         personService.deleteById(id)
     }

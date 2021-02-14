@@ -13,19 +13,26 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @Tag("unitTest")
 @DisplayName("Test REST access for location controller")
 @ActiveProfiles("test")
-@WebMvcTest (controllers = [LocationController::class])
-internal class LocationControllerTest(@Autowired val mockMvc: MockMvc) {
+@WebMvcTest (controllers = [MockMvcValidationConfiguration::class,LocationController::class])
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
+internal class LocationControllerTest(
+    @Autowired val mockMvc: MockMvc
+    ) {
 
     @MockkBean
     lateinit var personService: PersonService
@@ -44,7 +51,7 @@ internal class LocationControllerTest(@Autowired val mockMvc: MockMvc) {
         every { locationService.findAll() } returns locations
         // then
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/location/").accept(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.jsonPath("\$.[0].name").value("Academic Work"))
             .andExpect(MockMvcResultMatchers.jsonPath("\$.[1].name").value("HAW"))
@@ -61,7 +68,7 @@ internal class LocationControllerTest(@Autowired val mockMvc: MockMvc) {
         every { locationService.getById(any()) } returns dbLocation
         // then
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/location/1").accept(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.jsonPath("\$.name").value("Academic Work"))
             .andExpect(MockMvcResultMatchers.jsonPath("\$.postalCode").value("20457"))
@@ -74,7 +81,9 @@ internal class LocationControllerTest(@Autowired val mockMvc: MockMvc) {
         // when
         every { locationService.deleteById(any()) } just Runs
         // then
-        mockMvc.delete("/api/v1/location/1")
-            .andExpect { MockMvcResultMatchers.status().isNoContent }
+        mockMvc.perform(delete("/api/v1/location/1"))
+            .andExpect (status().isNoContent )
+            .andDo(document("deleteLocation"))
+            .andReturn()
     }
 }

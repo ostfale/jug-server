@@ -7,13 +7,35 @@ This is an example output for a service running at http://localhost:8080:
 === Get all persons
 
 .curl
-include::{snippets}/getAllPersons$server/curl-request.adoc[]
+include::{snippets}/getAllPersons/curl-request.adoc[]
 
 .request
-include::{snippets}/getAllPersons$server/http-request.adoc[]
+include::{snippets}/getAllPersons/http-request.adoc[]
 
 .response
-include::{snippets}/getAllPersons$server/http-response.adoc[]
+include::{snippets}/getAllPersons/http-response.adoc[]
 
 
-=== Create person
+=== Delete person
+
+.curl
+include::{snippets}/deletePerson/curl-request.adoc[]
+
+.request
+include::{snippets}/deletePerson/http-request.adoc[]
+
+.response
+include::{snippets}/deletePerson/http-response.adoc[]
+
+== Location API
+
+=== Delete Location
+
+.curl
+include::{snippets}/deleteLocation/curl-request.adoc[]
+
+.request
+include::{snippets}/deleteLocation/http-request.adoc[]
+
+.response
+include::{snippets}/deleteLocation/http-response.adoc[]

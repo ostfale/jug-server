@@ -50,6 +50,7 @@ class LocationController(
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Long) {
         locationService.deleteById(id)
     }
