@@ -13,7 +13,23 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: false
+  application:
+    name: jug-server
 
 logging:
   level:
     sql: warn
+
+# actuator info configuration
+info:
+  application-name: ${spring.application.name}
+  developer.name: Uwe Sauerbrei
+  devloper.email: info@uwe-sauerbrei.de
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,configprops,env,metrics,mappings
+  endpoint:
+    health:
+      show-details: always
