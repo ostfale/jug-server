@@ -29,7 +29,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,configprops,env,metrics,mappings
+        include: health,configprops,env,metrics,mappings,db-stats
   endpoint:
     health:
       show-details: always
